@@ -68,4 +68,52 @@ export class PatientController {
             res.status(500).json({ error: true, message: 'Error al obtener paciente' });
         }
     };
+    login = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { email, password } = req.body;
+
+            // Validar campos requeridos
+            if (!email || !password) {
+                res.status(400).json({
+                    error: true,
+                    message: 'Email y contraseña son obligatorios',
+                    code: 'MISSING_CREDENTIALS',
+                });
+                return;
+            }
+
+            // Intentar login
+            const patient = await this.service.login(email, password);
+
+            if (!patient) {
+                res.status(401).json({
+                    error: true,
+                    message: 'Credenciales inválidas',
+                    code: 'INVALID_CREDENTIALS',
+                });
+                return;
+            }
+
+            // Generar token simple (base64 de id:timestamp)
+            const token = Buffer.from(`${patient.id}:${Date.now()}`).toString('base64');
+
+            res.status(200).json({
+                success: true,
+                message: 'Login exitoso',
+                token,
+                user: {
+                    id: patient.id,
+                    nombre: patient.nombre,
+                    apellido: patient.apellido,
+                    email: patient.email,
+                },
+            });
+        } catch (error) {
+            res.status(500).json({
+                error: true,
+                message: 'Error en login',
+                details: error,
+            });
+        }
+    };
 }
