@@ -20,6 +20,10 @@ export class Patient {
   @Column({ type: 'date' })
   fechaNacimiento!: Date;
 
+  // 🔥 NUEVO CAMPO
+  @Column({ length: 255 })
+  password!: string;
+
   @CreateDateColumn()
   createdAt!: Date;
 }
