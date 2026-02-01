@@ -14,6 +14,9 @@ router.post('/patients', patientValidation, patientController.create);
 router.get('/patients', patientController.findAll);
 router.get('/patients/:id', patientController.findById);
 
+// 🔥 NUEVA RUTA DE LOGIN
+router.post('/login', patientController.login);
+
 // Médicos (con validación)
 router.post('/doctors', doctorValidation, doctorController.create);
 router.get('/doctors', doctorController.findAll);
