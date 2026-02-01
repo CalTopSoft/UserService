@@ -51,6 +51,14 @@ export const patientValidation = [
     .isDate()
     .withMessage('Debe ser una fecha válida'),
   
+  // 🔥 NUEVO CAMPO
+  body('password')
+    .trim()
+    .notEmpty()
+    .withMessage('La contraseña es obligatoria')
+    .isLength({ min: 6 })
+    .withMessage('La contraseña debe tener al menos 6 caracteres'),
+  
   validate,
 ];
 
