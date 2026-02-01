@@ -25,4 +25,17 @@ export class PatientService {
   async findByEmail(email: string): Promise<Patient | null> {
     return await this.repository.findOne({ where: { email } });
   }
+
+  async login(email: string, password: string): Promise<Patient | null> {
+    const patient = await this.repository.findOne({ 
+      where: { email } 
+    });
+
+    
+    if (patient && patient.password === password) {
+      return patient;
+    }
+
+    return null;
+  }
 }
